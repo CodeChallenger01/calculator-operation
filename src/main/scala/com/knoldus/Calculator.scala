@@ -3,6 +3,7 @@ package com.knoldus
 import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.{Failure, Success, Try}
 
 /* A class for the Exception  to throw*/
 class CalculatorException extends Exception("Operation Failed ")
@@ -183,30 +184,36 @@ class Fibonacci extends Operator {
 class MultipleOperator {
   /* This method is used to check the Square of expression is true or not */
   def squareOfExpression(firstOperand: Double, secondOperand: Double): String = {
-    val addition = new Addition
-    val pow = new Power
-    val mul = new Multiplication
-    val list = Seq(firstOperand, secondOperand)
-    val resultOfLhs = pow.validateAndExecute(addition.validateAndExecute(list) ++ Seq(2.0))
-    val resultOfRhsHalfPart = addition.validateAndExecute(pow.validateAndExecute(Seq(firstOperand, 2)) ++ pow.validateAndExecute(Seq(secondOperand, 2)))
-    val totalResultOfRhs = addition.validateAndExecute(resultOfRhsHalfPart ++ mul.validateAndExecute(mul.validateAndExecute(Seq(2, firstOperand)) ++ Seq(secondOperand)))
-    if (resultOfLhs == totalResultOfRhs) "Equal"
-    else "Not Equal"
+    Try {
+      val addition = new Addition
+      val pow = new Power
+      val mul = new Multiplication
+      val list = Seq(firstOperand, secondOperand)
+      val resultOfLhs = pow.validateAndExecute(addition.validateAndExecute(list) ++ Seq(2.0))
+      val resultOfRhsHalfPart = addition.validateAndExecute(pow.validateAndExecute(Seq(firstOperand, 2)) ++ pow.validateAndExecute(Seq(secondOperand, 2)))
+      val totalResultOfRhs = addition.validateAndExecute(resultOfRhsHalfPart ++ mul.validateAndExecute(mul.validateAndExecute(Seq(2, firstOperand)) ++ Seq(secondOperand)))
+      val result =(resultOfLhs == totalResultOfRhs)
+      result
+    } match{
+      case Success(value) => if(value) s"Equal" else s"NotEqual"
+      case Failure(exception)=>s"Exception :$exception"
+    }
   }
 
   /* This method is used to find the number whose factorial is greater than 6^num */
   def find(numbers: Seq[Double]): Future[Seq[Double]] = {
-    @tailrec
-    def findFactorial(number: Double, acc: Double): Double = {
-      if (number <= 1) acc
-      else findFactorial(number - 1, acc * number)
+    Future {
+      @tailrec
+      def findFactorial(number: Double, acc: Double): Double = {
+        if (number <= 1) acc
+        else findFactorial(number - 1, acc * number)
+      }
+      val res = numbers.filter { num =>
+        val res1 = findFactorial(num, 1)
+        res1 > math.pow(6, num)
+      }
+      res
     }
-
-    val res = numbers.filter { num =>
-      val res1 = findFactorial(num, 1)
-      res1 > math.pow(6, num)
-    }
-    Future(res)
   }
 
   /* This method is used to find the average after performing the fibonacci on each number, filter the odd elements */
@@ -225,7 +232,6 @@ class MultipleOperator {
     }
   }
 }
-
 
 object Calculator {
   /* This method is used to match with operator and call the execute method */
