@@ -1,5 +1,4 @@
-# calculator-operation
-<<<<<<< HEAD
+
 # Calculator by using Future
 
 Step 1: Open IntelliJ and create scala file inside src/main/scala/com/knoldus
@@ -55,6 +54,4 @@ Step 7: Now save and in terminal compile and run the project
 
 >sbt test : 
 >>to check with test cases are running or not
-=======
-# calculator-operation
->>>>>>> 1b1470ce597df1aece7e84034056ddb5a0d25071
+
