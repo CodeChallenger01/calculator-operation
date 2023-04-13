@@ -2,12 +2,14 @@
 # Calculator by using Future
 
 **Step 1:** Open IntelliJ and create scala file inside **src/main/scala/com/knoldus**   
-**Step 2:** Inside this create three class 
-**1. Calculator:** Inside this scala, it is used to perform all the operation and validation of operands .  
-1.1 Create classes for Addition, Subtraction, Division, Multiplication, Square Root, Power, Odd NUmber, Even NUmber, Factorial, Fibonacci.
-2. Now create a **Validator scala file** inside this create two trait   
-2.1 Validator that contains abstract method for validate.  
-2.2 Operator that extends the Validator trait and inside this create two methods one for validateAndExecute with body and other one execute with no body.  
+**Step 2:** Inside this create three class     
+
+**1. Calculator:** Inside this scala, it is used to perform all the operation and validation of operands .     
+1.1 Create classes for Addition, Subtraction, Division, Multiplication, Square Root, Power, Odd NUmber, Even NUmber, Factorial, Fibonacci.   
+
+2. Now create a **Validator scala file** inside this create two trait       
+2.1 Validator that contains abstract method for validate.     
+2.2 Operator that extends the Validator trait and inside this create two methods one for validateAndExecute with body and other one execute with no body.      
 3. Create **Driver scala** file inside this create instance of Object Calculator and call the different operation to perform on operand.
 > private val loggers = Logger(getClass)   
 > /* This is instance of Calculator object*/   
